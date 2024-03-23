@@ -1,0 +1,12 @@
+digraph {
+	graph [fontname=Arial, nodesep=0.125, ranksep=0.25];
+	node [fontcolor=white, fontname=Arial, height=0, shape=box, style=filled, width=0];
+	edge [fontname=Arial];
+	1 [color="#ff0000", fontcolor="#ffffff", fontsize="10.00", label="main\n100.00%\n(0.35%)"];
+	1 -> 2 [arrowsize="0.82", color="#93cf07", fontcolor="#93cf07", fontsize="10.00", label="67.48%\n1×", labeldistance="2.70", penwidth="2.70"];
+	1 -> 4 [arrowsize="0.57", color="#0b9d73", fontcolor="#0b9d73", fontsize="10.00", label="32.18%\n1×", labeldistance="1.29", penwidth="1.29"];
+	2 [color="#93cf07", fontcolor="#ffffff", fontsize="10.00", label="func1\n67.48%\n(34.26%)\n1×"];
+	2 -> 3 [arrowsize="0.58", color="#0b9f6e", fontcolor="#0b9f6e", fontsize="10.00", label="33.22%\n1×", labeldistance="1.33", penwidth="1.33"];
+	3 [color="#0b9f6e", fontcolor="#ffffff", fontsize="10.00", label="new_func1\n33.22%\n(33.22%)\n1×"];
+	4 [color="#0b9d73", fontcolor="#ffffff", fontsize="10.00", label="func2\n32.18%\n(32.18%)\n1×"];
+}
