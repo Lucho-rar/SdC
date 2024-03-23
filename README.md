@@ -214,12 +214,29 @@ Usar graphviz para el png
 `
 dot -Tpng output.dot -o output.png
 `
-
+![Descripción de la imagen](img/output.png)
 
 ## Profiling con linux perf
 Perf es una herramienta para crear perfiles de programas, usa perfiles estadisticos donde sondea el programa y ve qué funcion está funcionando. Es menos preciso pero tiene menos impacto en el rendimiento. 
 
+Instalación
+`
+sudo apt install linux-tools-common
+`
+`
+sudo apt install linux-tools-5.15.0-100-generic
+`
+Ejecución
+`
+sudo perf record #con path abs completo test_gprof
+`
+`
+sudo perf report
+`
 
+Podemos observar las diferencias de los reportes
+
+![Descripción de la imagen](img/perf.png)
 
 
 
