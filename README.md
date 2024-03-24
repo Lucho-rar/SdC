@@ -84,9 +84,9 @@ Inside new_func1()
 Inside func2 
 ```
 
-Esto genera un gmon.out.
+Esto genera un archivo llamado gmon.out en el directorio de trabajo actual
 
-## Paso 2: Ejecutar el código
+## Paso 3: Ejecutar la herramienta gprof
 
 En este paso, la herramienta gprof se ejecuta con el nombre del ejecutable y el 'gmon.out' generado anteriormente como argumento. Esto produce un archivo de análisis que contiene toda la información de perfil deseada.
 `
