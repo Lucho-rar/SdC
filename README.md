@@ -234,20 +234,34 @@ dot -Tpng output.dot -o output.png
 `
 ![Descripción de la imagen](img/output.png)
 
-## Profiling con linux perf
+# Profiling con linux perf
 Perf es una herramienta para crear perfiles de programas, usa perfiles estadisticos donde sondea el programa y ve qué funcion está funcionando. Es menos preciso pero tiene menos impacto en el rendimiento. 
 
-Instalación
+##  Paso 1: Instalación de perf
+El programa perf no viene preinstalado en los sistemas Linux,puede instalarlo como se muestra a continuación en Ubuntu:
+
 `
 sudo apt install linux-tools-common
 `
+
 `
 sudo apt install linux-tools-5.15.0-100-generic
 `
-Ejecución
+
+##  Paso 2: Registrar ciclos de CPU
+El comando perf de forma predeterminada requiere provilegios sudo para permitir que los usuarios lo utilicen.
+- perf record:escribir eventos en un archivo.
+- perf report:para explorar el archivo grabado.
+  
 `
 sudo perf record #con path abs completo test_gprof
 `
+
+La grabación guarda los datos en un archivo perf.date
+
+## Paso 3: Ver resultados de rendimiento
+Para ver los resultados de rendimiento del archivo perf.date
+
 `
 sudo perf report
 `
@@ -256,5 +270,5 @@ Podemos observar las diferencias de los reportes
 
 ![Descripción de la imagen](img/perf.png)
 
-
+El comando ayuda a leer el archivo perf.date, mostrando todos los eventos y estadisticas recopiladas
 
