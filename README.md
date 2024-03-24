@@ -197,22 +197,22 @@ Each sample counts as 0.01 seconds.
 ```
 
 #### Interpretación de la salida gprof
--El perfil plano muestra la cantidad total de tiempo dedicado a la ejecución del programa de cada funcion.Las funciones se ordenan por orden decreciente por tiempo de ejecución empleado en ellas. En el encabezado aparece una declaración que indica cuanto tiempo equivale una muestra.Significado de los campos:
-‘% time’ Este es el porcentaje del tiempo total de ejecución que el programa dedicó a cada función. Estos deben sumar el 100% entre todos.
-‘cumulative seconds’ Este es el número total de segundos acumulados que el ordenador dedicó a ejecutar estas funciones, más el tiempo dedicado a todas las funciones anteriores a esta en esta tabla.
-‘self seconds’ Este es el número de segundos contabilizados a esta función sola. El listado del perfil plano se ordena por este número.
-‘calls’ Este es el número total de veces que se invocó la función. Si la función no se llamó nunca, o el número de veces que fue llamado no se puede determinar (probablemente porque la función no se compiló con el perfilado habilitado), el campo de las llamadas (‘calls’) permanecerá en blanco.
-‘self ms/call’ Esta cifra representa el número de milisegundos de media gastados en esta función por cada llamada, si esta función es perfilada. De lo contrario, este campo permanecerá en blanco para esta función.
-‘total ms/call’ total de ms / llamada Est cifra representa el número de milisegundos de media gastados en esta función y sus descendientes por cada llamada.
+El perfil plano muestra la cantidad total de tiempo dedicado a la ejecución del programa de cada funcion.Las funciones se ordenan por orden decreciente por tiempo de ejecución empleado en ellas. En el encabezado aparece una declaración que indica cuanto tiempo equivale una muestra.Significado de los campos:
+- ‘% time’ Este es el porcentaje del tiempo total de ejecución que el programa dedicó a cada función. Estos deben sumar el 100% entre todos.
+- ‘cumulative seconds’ Este es el número total de segundos acumulados que el ordenador dedicó a ejecutar estas funciones, más el tiempo dedicado a todas las funciones anteriores a esta en esta tabla.
+- ‘self seconds’ Este es el número de segundos contabilizados a esta función sola. El listado del perfil plano se ordena por este número.
+- ‘calls’ Este es el número total de veces que se invocó la función. Si la función no se llamó nunca, o el número de veces que fue llamado no se puede determinar (probablemente porque la función no se compiló con el perfilado habilitado), el campo de las llamadas (‘calls’) permanecerá en blanco.
+- ‘self ms/call’ Esta cifra representa el número de milisegundos de media gastados en esta función por cada llamada, si esta función es perfilada. De lo contrario, este campo permanecerá en blanco para esta función.
+- ‘total ms/call’ total de ms / llamada Est cifra representa el número de milisegundos de media gastados en esta función y sus descendientes por cada llamada.
 
--Grafo de Llamadas El grafo de llamadas muestra qué funciones son llamadas por qué otras, y cuanto tiempo cada función usó cuando fue llamada por éstas.
+El grafo de llamadas muestra qué funciones son llamadas por qué otras, y cuanto tiempo cada función usó cuando fue llamada por éstas.
 Las líneas de guiones dividen esta tabla en ‘entradas’, una para cada función. Cada entrada tiene una o más líneas.
 En cada entrada, la línea principal es la que comienza con un número de índice entre corchetes. Al final de esta línea aparece el nombre de la función a la que esta entrada se refiere. Las líneas anteriores de la entrada describen a los llamadores de esta función y las líneas siguientes describen sus subrutinas (también llamados ‘hijos’ cuando se habla del grafo de llamadas). Las entradas se ordenan por el tiempo gastado en la función y sus subrutinas.
-‘index’Las entradas están numeradas con enteros consecutivos. Por lo tanto, cada función tiene un número de índice, que aparece al principio de su línea principal.
-‘% time’ Este es el porcentaje del tiempo total que se gastó en esta función, incluido el tiempo dedicado en las subrutinas llamadas desde esta función.
-‘self’ Esta es la cantidad total de tiempo dedicado a esta función. Esta debe ser idéntico al número impreso en el campo ‘seconds’ (segundos) de esta función en el perfil plano.
-‘children’ Esta es la cantidad total de tiempo dedicado a las llamadas a subrutinas realizadas por esta función. Esta debe ser igual a la suma de todos los campos ‘self’ y ‘children’ de todos los hijos que aparecen justo debajo de esta función
-‘called’Este es el número de veces que se llama a la función.
+- ‘index’Las entradas están numeradas con enteros consecutivos. Por lo tanto, cada función tiene un número de índice, que aparece al principio de su línea principal.
+- ‘% time’ Este es el porcentaje del tiempo total que se gastó en esta función, incluido el tiempo dedicado en las subrutinas llamadas desde esta función.
+- ‘self’ Esta es la cantidad total de tiempo dedicado a esta función. Esta debe ser idéntico al número impreso en el campo ‘seconds’ (segundos) de esta función en el perfil plano.
+- ‘children’ Esta es la cantidad total de tiempo dedicado a las llamadas a subrutinas realizadas por esta función. Esta debe ser igual a la suma de todos los campos ‘self’ y ‘children’ de todos los hijos que aparecen justo debajo de esta función
+- ‘called’Este es el número de veces que se llama a la función.
 
 #### Genere un gráfico 
 
