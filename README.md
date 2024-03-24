@@ -9,9 +9,9 @@ Se utiliza la herramienta gprof. Para ello es necesario:
 - Ejecutar el código del programa para producir los datos de perfil.
 - Ejecutar la herramienta gprof en el archivo de datos de generación de perfiles.
 
-Este último paso produce un archivo legible para las personas. Este archivo, contiene tablas (perfil plano y gráfico de llamadas) además de más información. 
-El perfil plano da una descripción general de tiempo de las funciones, la cantidad de veces que se llaman, etc.
-El gráfico de llamadas es información de cantidad de llamadas dentro de una X función, etc. (subrutinas)
+Este último paso finaliza con la generación de un archivo legible para las personas. Este archivo, contiene un par de tablas (perfil plano y gráfico de llamadas) así como otros detalles adicionales. 
+El perfil plano proporciona una descripción general de tiempo de las funciones, la cantidad de veces que se llaman, etc.
+El gráfico de llamadas muestra para cada función, que funciones la llaman, que funciones llama y cuantas veces.
 
 Se usa un código de ejemplo test_gprof.c
 ```
