@@ -30,7 +30,7 @@ Este diagrama es fundamental para comprender el flujo de interacción entre los 
 del desarrollo. Además de proporcionar una visión clara de cómo se comunican los distintos elementos del software:
 
 
-![Diagrama de Secuencia](/practico2/img/diagram.jpg "Fig1.Diagrama de Secuencia")
+![Diagrama de Secuencia](img/diagram.jpg "Fig1.Diagrama de Secuencia")
 
 
 El código en Python tiene las siguientes funciones:
