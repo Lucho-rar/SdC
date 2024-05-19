@@ -2,8 +2,15 @@
 
 
 ### Resumen de ejecuciones
-```
+```bash
+#ejemplo c y python
+./build_c_python.sh
 
+#enlazar c, python y asm
+./build.sh
+
+#debug con gdb
+./build_with_gdb.sh
 ```
 
 
