@@ -12,6 +12,7 @@
 #debug con gdb
 ./build_with_gdb.sh
 ```
+![Alt Text](img/screen.png)
 
 
 ### Práctico paso a paso
@@ -54,7 +55,7 @@ int _suma(float index) {
 ```
 
 ```python
-#      ejemplosuma.py      
+#      req.py      
 
 import ctypes
  
@@ -198,7 +199,7 @@ while True:
 
 ```
 
-Para ejecutar esto podemos seguir los pasos d ./build.sh
+Para ejecutar esto podemos seguir los pasos de ./build.sh
 ```bash
 #!/bin/bash
 
