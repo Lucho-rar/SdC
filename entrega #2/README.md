@@ -1,14 +1,15 @@
 # Entrega 2
 
 
-
-
-## Práctico paso a paso
-
-### Ejecucion C & Python
+### Resumen de ejecuciones
 ```
 
 ```
+
+
+### Práctico paso a paso
+
+
 
 ### Consumir una API REST desde python
 
