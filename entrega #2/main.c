@@ -1,16 +1,23 @@
+/*              includes                */
 #include <stdio.h>
-#include "sumarTo.c"
+#include "sumarUno.c"
 
+
+
+/**
+ * @brief Adds one to a given floating-point number.
+ * @return The result of adding one to the given number.
+ */
 int main() {
-    float number;
-    int result;
+    float numero;
+    int resultado;
 
-    printf("Enter a float number: ");
-    scanf("%f", &number);
+    printf("Ingrese un número flotante: ");
+    scanf("%f", &numero);
 
-    result = add_one(number);
+    resultado = sumar_uno(numero);
 
-    printf("Result: %d\n", result);
+    printf("Resultado: %d\n", resultado);
 
-	    return 0;
+    return 0;
 }

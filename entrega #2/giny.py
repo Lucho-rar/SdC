@@ -6,8 +6,8 @@ import ctypes
 libsuma = ctypes.CDLL('./libsuma.so')
 
 # Configure argument and return types
-libsuma.add_one.argtypes = [ctypes.c_float]
-libsuma.add_one.restype = ctypes.c_int
+libsuma.sumar_uno.argtypes = [ctypes.c_float]
+libsuma.sumar_uno.restype = ctypes.c_int
 
 def show_menu():
     print("1. Select pais")
@@ -18,7 +18,7 @@ def get_url(country):
     return url
 
 def get_suma(num):
-    return libsuma.add_one(num)
+    return libsuma.sumar_uno(num)
 
 def option_1():
     country = raw_input("Please enter a string: ")  # For Python 2.7, use raw_input instead of input
