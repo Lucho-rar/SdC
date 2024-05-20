@@ -9,6 +9,18 @@ Autores:
 - Rodriguez, Luciano Ariel
 
 
+## Índice
+
+- [Resumen de ejecuciones](#resumen-de-ejecuciones)
+- [Enunciado](#enunciado)
+- [Marco teórico](#marco-teórico)
+- [Desarrollo Práctico](#desarrollo-práctico)
+- [Consumir una API REST desde python](#consumir-una-api-rest-desde-python)
+- [Llamar codigo C desde python](#llamar-codigo-c-desde-python)
+- [Assembler enlazado a C y Python](#assembler-enlazado-a-c-y-python)
+- [Debug con gdb](#debug-con-gdb)
+- [Anexo Python](#anexo-python)
+- [Conclusión](#conclusión)
 
 
 
@@ -92,7 +104,7 @@ A continuación se muestra una lista de los códigos de estado más comunes devu
 - Depurador
 
 
-### Desarrollo - Práctico paso a paso
+### Desarrollo Práctico
 Para la primera fase del proyecto (antes de la implementación del ensamblador), se ha elaborado el siguiente diagrama de secuencias. Este diagrama es fundamental para comprender el flujo de interacción entre los diferentes componentes del sistema en esta etapa inicial del desarrollo. Además de proporcionar una visión clara de cómo se comunican los distintos elementos del software:
 
 ![graph](img/graph.png)
@@ -164,7 +176,7 @@ gcc -shared -W -o libsuma.o suma.o
 python3 ejemplosuma.py
 ```
 
-### Assembler enlazado a C + Python
+### Assembler enlazado a C y Python
 
 ```asm
 section .data
@@ -311,7 +323,7 @@ python2.7 giny.py
 printf "¡Script completado con éxito!\n"
 ```
 
-## Para el debug y observar con gdb hacemos
+### Debug con gdb
 ```bash
 
 (gdb) break main
