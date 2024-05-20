@@ -1,4 +1,23 @@
-# Entrega 2
+![portada](img/portada.png)
+# Universidad Nacional de Córdoba
+## FCEFyN - Sistemas de Computación 2024
+## _Entrega #2: Modo Protegido_
+
+Autores:
+- Mangin, Matias Eduardo.
+- Robles, Karen Yésica.
+- Rodriguez, Luciano Ariel
+
+
+
+
+
+
+
+
+        
+
+
 
 
 ### Resumen de ejecuciones
@@ -12,11 +31,71 @@
 #debug con gdb
 ./build_with_gdb.sh
 ```
-![Alt Text](img/screen.png)
+![run screen](img/screen.png)
+
+### Enunciado
+
+Diseñar e implementar cálculos en ensamblador. La capa superior recuperará información de una api REST. Se recomienda el uso de API Rest y python. Los datos de consulta realizados deben ser entregados a un programa en C que convocará rutinas en ensamblador para que hagan los cálculos de conversión y devuelvan los resultados a las capas superiores. Luego el programa en C o python mostrará los cálculos obtenidos.
+Se debe utilizar el stack para convocar, enviar parámetros y devolver resultados. O sea utilizar las convenciones de llamadas de lenguajes de alto nivel a bajo nivel.
+Se debe diseñar e implementar una interfaz que muestre el índice GINI. La capa superior recuperará la información del banco mundial https://api.worldbank.org/v2/en/country/all/indicator/SI.POV.GINI?format=json&date=2011:2020&per_page=32500&page=1&country=%22Argentina%22.  Se recomienda el uso de API Rest y Python. Los datos de consulta realizados deben ser entregados a un programa en C (capa intermedia) que convocará rutinas en ensamblador para que hagan los cálculos de conversión de float a enteros y devuelva el índice de un país como Argentina u otro sumando uno (+1). Luego el programa en C o python mostrará los datos obtenidos.-
+Se debe utilizar el stack para convocar, enviar parámetros y devolver resultados. O sea utilizar las convenciones de llamadas de lenguajes de alto nivel a bajo nivel.-
+En una primera iteración resolverán todo el trabajo práctico usando c con python sin ensamblador. En la siguiente iteración usarán los conocimientos de ensamblador para completar el tp.
+IMPORTANTE: en esta segunda iteración deberán mostrar los resultados con gdb, para ello pueden usar un programa de C puro. Cuando depuren muestran el estado del área de memoria que contiene el stack antes, durante y después de la función.
+
+### Marco teórico
+#### _API REST_
+Una API de REST, o API de RESTful, es una interfaz de programación de aplicaciones (API o API web) que se ajusta a los límites de la arquitectura REST y permite la interacción con los servicios web de RESTful. El informático Roy Fielding es el creador de la transferencia de estado representacional (REST).
+Las API son conjuntos de definiciones y protocolos que se utilizan para diseñar e integrar el software de las aplicaciones. Suele considerarse como el contrato entre el proveedor de información y el usuario, donde se establece el contenido que se necesita por parte del consumidor (la llamada) y el que requiere el productor (la respuesta).
+Las API le permiten interactuar con una computadora o un sistema para obtener datos o ejecutar una función, de manera que el sistema comprenda la solicitud y la cumpla.
+#### _API de Python y REST : interacción con servicios web_
+Hay muchos servicios web , como YouTube y GitHub, que hacen que sus datos sean accesibles para aplicaciones de terceros a través de una interfaz de programación de aplicaciones (API) . Una de las formas más populares de crear API es el estilo de arquitectura REST . Python proporciona herramientas no solo para obtener datos de las API REST sino también para crear sus propias API REST de Python.
+Al utilizar las API Python y REST, se puede recuperar, analizar, actualizar y manipular los datos proporcionados por cualquier servicio web de interés.
+#### _API REST y servicios web_
+Un servicio web REST es cualquier servicio web que cumple con las restricciones de la arquitectura REST. Estos servicios web exponen sus datos al mundo exterior a través de una API. Las API REST brindan acceso a datos de servicios web a través de URL web públicas.
+##### Métodos HTTP
+Las API REST reciben métodos HTTP como GET, POST y  DELETE para saber qué operaciones realizar en los recursos del servicio web. Un recurso es cualquier dato disponible en el servicio web al que se puede acceder y manipular con solicitudes HTTP a la API REST. El método HTTP le dice a la API qué acción realizar en el recurso.
+Si bien existen muchos métodos HTTP, los cinco métodos que se enumeran a continuación son los más utilizados con las API REST:
+
+| Método HTTP | Descripción                                   |
+|-------------|-----------------------------------------------|
+| GET         | Recuperar un recurso existente.               |
+| POST        | Crear un nuevo recurso.                       |
+| PUT         | Actualizar un recurso existente.              |
+| PATCH       | Actualizar parcialmente un recurso existente. |
+| DELETE      | Eliminar un recurso.                          |
+
+Una aplicación cliente de API REST puede utilizar estos cinco métodos HTTP para gestionar el estado de los recursos en el servicio web.
+##### Códigos de estado
+Una vez que una API REST recibe y procesa una solicitud HTTP, devolverá una respuesta HTTP . En esta respuesta se incluye un código de estado HTTP . Este código proporciona información sobre los resultados de la solicitud. Una aplicación que envía solicitudes a la API puede verificar el código de estado y realizar acciones según el resultado. Estas acciones podrían incluir manejar errores o mostrar un mensaje de éxito a un usuario.
+A continuación se muestra una lista de los códigos de estado más comunes devueltos por las API REST:
+
+| Código | Significado                   | Descripción                                                                            |
+|--------|-------------------------------|----------------------------------------------------------------------------------------|
+| 200    | DE ACUERDO                    | La acción solicitada fue exitosa.                                                      |
+| 201    | Creado                        | Se creó un nuevo recurso.                                                              |
+| 202    | Aceptado                      | Se recibió la solicitud, pero aún no se ha realizado ninguna modificación.             |
+| 204    | Sin contenido                 | La solicitud fue exitosa, pero la respuesta no tiene contenido.                        |
+| 400    | Solicitud incorrecta          | La solicitud estaba mal formada.                                                       |
+| 401    | No autorizado                 | El cliente no está autorizado a realizar la acción solicitada.                         |
+| 404    | Extraviado                    | No se encontró el recurso solicitado.                                                  |
+| 415    | Tipo de medio no admitido     | El formato de datos de la solicitud no es compatible con el servidor.                  |
+| 422    | Entidad no procesable         | Los datos de la solicitud estaban formateados correctamente pero contenían datos no válidos o faltantes. |
+| 500    | Error Interno del Servidor    | El servidor arrojó un error al procesar la solicitud.                                  |
+
+### Requerimientos
+
+- Sistema Operativo Linux.
+- Editor de texto como Codium o Sublime Text cualquier otro editor.
+- Netwide Assembler: Ensamblador libre para X86.
+- Linkeditor, generalmente viene instalado por default en el SO.
+- Compilador de lenguaje C, también viene instalado por default
+- Depurador
 
 
-### Práctico paso a paso
+### Desarrollo - Práctico paso a paso
+Para la primera fase del proyecto (antes de la implementación del ensamblador), se ha elaborado el siguiente diagrama de secuencias. Este diagrama es fundamental para comprender el flujo de interacción entre los diferentes componentes del sistema en esta etapa inicial del desarrollo. Además de proporcionar una visión clara de cómo se comunican los distintos elementos del software:
 
+![graph](img/graph.png)
 
 
 ### Consumir una API REST desde python
@@ -38,6 +117,7 @@ response = requests.get(url)
 data = response.json()
 print(data)
 ```
+![run req](img/run_req.png)
 
 ### Llamar codigo C desde python
 
@@ -316,3 +396,21 @@ El stack contiene la dirección de retorno, el argumento n pasado a sumar_uno, y
 
 - Dentro de asm_main:
 Se observa una reducción en el valor de esp ya que se empuja ebp y otros valores al stack. El registro eax eventualmente contendrá el valor de num incrementado en 1 antes de ser retornado a sumar_uno.
+
+### Anexo Python
+
+- Nota: usamos python2.7 por problemas con la libreria de compatibilidad de 32/64.
+
+- show_menu(): Imprime un menú en la consola con dos opciones: seleccionar un país o salir.
+- get_url(pais): Toma el nombre de un país como entrada y devuelve una URL formateada para hacer una solicitud a la API de World Bank. Esta URL solicita datos sobre el índice de GINI para el país dado, para los años 2011-2020.
+ 
+- get_suma(num): Esta función llama a una función definida en un archivo compartido de C (libsuma.so),. La función get _suma () toma un número en punto flotante (float) como entrada, lo convierte a un entero (int), y luego le suma 1 al entero resultante y devuelve el resultado de la función C _suma().
+ 
+- option_1(): Solicita al usuario un país, obtiene la URL correspondiente usando la función get_url(), realiza una solicitud GET a esa URL utilizando la biblioteca requests, procesa la respuesta JSON y muestra las fechas y valores del índice GINI para el país dado. Para cada valor, llama a get_suma() para realizar alguna operación en el valor y luego muestra el resultado junto con la fecha.
+
+### Conclusión
+
+En este trabajo se ha explorado la integración de APIs REST en Python, haciendo énfasis en cómo estas interfaces facilitan la interacción con servicios web para recuperar, manipular y gestionar datos de manera eficiente. A través del uso de métodos HTTP como GET, las API REST permiten realizar operaciones específicas sobre recursos web, proporcionándonos una vía estandarizada y accesible para interactuar con datos distribuidos.
+La implementación práctica en Python mediante la biblioteca requests demuestra la facilidad con la que se puede consumir una API REST. Además, se ha mostrado cómo extender Python con código en C usando la librería ctypes, lo cual es esencial para ejecutar funciones de bajo nivel y optimizar el rendimiento de la aplicación.
+Finalmente, la integración de código ensamblador para operaciones específicas resalta la versatilidad y eficiencia que se pueden lograr mediante la combinación de diferentes lenguajes de programación.
+En particular, cómo ensamblar y vincular código en C y ensamblador, proporcionando un enfoque robusto para manejar cálculos de manera eficiente.
