@@ -15,10 +15,10 @@ print_message() {
 }
 
 # Ensamblar el archivo .S
-print_message "Assembling protectedMode.S"
-as -g -o protectedMode.o protectedMode.S
+print_message "Assembling protectedMode_onlyRead.S"
+as -g -o protectedMode_onlyRead.o protectedMode_onlyRead.S
 if [ $? -eq 0 ]; then
-  echo -e "${YELLOW}protectedMode.S assembled successfully!${NC}"
+  echo -e "${YELLOW}protectedMode_onlyRead.S assembled successfully!${NC}"
 else
   echo -e "${RED}Error assembling protectedMode.S!${NC}"
   exit 1
@@ -26,7 +26,7 @@ fi
 
 # Enlazar el archivo objeto a un archivo binario
 print_message "Linking to create protectedMode.img"
-ld --oformat binary -o protectedMode.img -T link.ld protectedMode.o
+ld --oformat binary -o protectedMode_OR.img -T link.ld protectedMode_onlyRead.o
 if [ $? -eq 0 ]; then
   echo -e "${YELLOW}protectedMode.img created successfully!${NC}"
 else
@@ -35,8 +35,8 @@ else
 fi
 
 # Ejecutar la imagen con QEMU
-print_message "Running protectedMode.img with QEMU"
-qemu-system-x86_64 -s -S -hda protectedMode.img
+print_message "Running protectedMode_OR.img with QEMU"
+qemu-system-x86_64 -s -S -hda protectedMode_OR.img
 if [ $? -eq 0 ]; then
   echo -e "${YELLOW}QEMU executed successfully!${NC}"
 else

@@ -229,3 +229,5 @@ some_data:
     .long 0
 
 ```
+![gdb2](img/oread.png)
+
