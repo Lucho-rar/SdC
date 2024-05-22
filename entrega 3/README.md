@@ -168,21 +168,26 @@ En primer lugar necesitamos tener instalado “QEMU”, que básicamente es un e
 
 #### Utilizando el repositorio de ejemplos
 - Prueba de ejemplo simple MBR
+
 ![ej folder](img/2.png)
 ![salida en qemu](img/3.png)
 
 - Ejemplo HelloWorld
+
 ![ej hw](img/4.png)
 Podemos observar que el texto “TP3 - Modo Protegido - SDC 2024” lo agregamos nosotros modificando el archivo bios_hello_world.S mediante un editor de código (VIM). 
 
 - Ejemplo “Protected Mode” también con el texto editado
+
 ![protectedmode](img/5.png)
 
 - Siguiendo los ejemplos del repositorio adjuntado al trabajo realizamos el debug de bios_hello_world con gdb:
+
 ![gdb hw](img/6.png)
 ![gdb hw](img/7.png)
 
 - Ahora toca pasar esto a hardware real, para esto usamos un usb externo donde usamos gparted para formatear aunque no era necesario y cargamos la imagen de protected mode en el:
+
 ![gparted](img/8.png)
 ![configusb](img/9.png)
 ![boot](img/10.jpeg)
@@ -198,6 +203,7 @@ Proceso:
 - Configurar segmentos.
 
 Para seguir esto nos guiamos del repo de ejemplo ya que los macros de los mismos estan definidos en un header y nos facilito el proceso.
+
 ![execsh](img/execsh.png)
 ![qemunomacros](img/qemu_no_macros.png)
 ![gdb1](img/gdb1.png)
@@ -229,5 +235,6 @@ some_data:
     .long 0
 
 ```
+
 ![gdb2](img/oread.png)
 
