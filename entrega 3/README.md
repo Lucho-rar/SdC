@@ -159,7 +159,7 @@ Como ahora tenemos registros como el RPL (registro de segmento) y el DPL (descri
 Según el manual Intel 325384-053U parte 3 sección 3.4.2 “El procesador no utiliza la primera entrada de la GDT. Un selector de segmento que apunta a esta entrada de la GDT (que es decir, un selector de segmento con un índice de 0 y el indicador TI establecido en 0) se utiliza como un "selector de segmento nulo.”
 
 
-### Desarrollo práctico
+### Desarrollo práctico 
 
 #### Crear imagen booteable
 En primer lugar necesitamos tener instalado “QEMU”, que básicamente es un emulador de sistema completo, es decir, incluye la emulación de procesador, periféricos,  etc. En este caso, lo virtualizamos en un entorno de Linux Mint.
@@ -186,3 +186,46 @@ Podemos observar que el texto “TP3 - Modo Protegido - SDC 2024” lo agregamos
 ![gparted](img/8.png)
 ![configusb](img/9.png)
 ![boot](img/10.jpeg)
+
+
+#### Crear un código assembler que pueda pasar a modo protegido (sin macros)
+
+Proceso:
+- Deshabilitar interrupciones.
+- Cargar GDT.
+- Fijar el bit mas bajo de CR0 en 1.
+- Saltar a la seccion de 32b.
+- Configurar segmentos.
+
+Para seguir esto nos guiamos del repo de ejemplo ya que los macros de los mismos estan definidos en un header y nos facilito el proceso.
+![execsh](img/execsh.png)
+![qemunomacros](img/qemu_no_macros.png)
+![gdb1](img/gdb1.png)
+![gdb2](img/gdb2.png)
+
+#### Cambiar los bits de acceso del segmento de datos para que sea de solo lectura,  intentar escribir, ¿Que sucede? ¿Que debería suceder a continuación? (revisar el teórico) Verificarlo con gdb. 
+
+Para cambiar los bits de acceso del segmento de datos para que sea de solo lectura, se debe modificar la entrada correspondiente en la GDT.
+
+```as
+gdt_data:
+    .word 0xffff
+    .word 0x0
+    .byte 0x0
+    .byte 0b10010000  # Segmento de datos de solo lectura
+    .byte 0b11001111
+    .byte 0x0
+```
+
+podemos intentar escribir en modo lectura agregando 
+
+```as
+mov $DATA_SEG, %ax
+mov %ax, %ds
+mov $0xdeadbeef, %ebx
+mov %ebx, some_data
+
+some_data:
+    .long 0
+
+```
