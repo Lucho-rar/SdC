@@ -17,6 +17,12 @@ CheckInstall es un programa informático para sistemas operativos tipo Unix que 
 Los principales beneficios que ofrece CheckInstall en comparación con la simple ejecución make install son la capacidad de eliminar el paquete del sistema utilizando las herramientas de empaquetado del sistema y la capacidad de instalar el paquete resultante en varias máquinas.  CheckInstall a veces se cita como un mecanismo para crear paquetes mediante proyectos de código abierto en lugar de crear numerosos paquetes de compilación específicos de la plataforma.
 ### Empaquetar un hello world
 
+![make-checkinstall](img/make-checkinstall.png)
+![checkinstall2](img/checkinstall2.png)
+![checkinstall3](img/checkinstall3.png)
+![hellostart](img/hellostart.png)
+
+
 ### ¿ Qué funciones tiene disponible un programa ?
 Cuando programamos, frecuentemente empleamos funciones que no hemos definido nosotros mismos, como por ejemplo `printf()`, que está provista por la biblioteca estándar de C, libc. Las definiciones de tales funciones no se incluyen en nuestro programa hasta la etapa de linkeo, en la que se garantiza que el código de la función `printf()` esté disponible y se corre la llamada a la instrucción para que apunte a ese código. Es decir un programa puede usar funciones definidas en librerias que luego en el momento del linkeo se agregan al programa.
 ### ¿ Qué funciones tiene disponible un modulo?
