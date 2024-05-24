@@ -9,7 +9,7 @@ Autores:
 - Rodriguez, Luciano Ariel
 
 
-## Desafio 1
+## Desafio 1 (Guía)
 
 ### ¿Qué es checkinstall y para qué sirve?
 CheckInstall es un programa informático para sistemas operativos tipo Unix que facilita la instalación y desinstalación de software compilado desde el código fuente mediante el uso de sistemas de gestión de paquetes. Después de la compilación del software, puede generar automáticamente un paquete compatible con Slackware , RPM o Debian que luego se puede desinstalar limpiamente a través del administrador de paquetes apropiado.
@@ -22,6 +22,7 @@ Los principales beneficios que ofrece CheckInstall en comparación con la simple
 ![checkinstall3](img/checkinstall3.png)
 ![hellostart](img/hellostart.png)
 
+## Desafio 2 (Guía)
 
 ### ¿ Qué funciones tiene disponible un programa ?
 Cuando programamos, frecuentemente empleamos funciones que no hemos definido nosotros mismos, como por ejemplo `printf()`, que está provista por la biblioteca estándar de C, libc. Las definiciones de tales funciones no se incluyen en nuestro programa hasta la etapa de linkeo, en la que se garantiza que el código de la función `printf()` esté disponible y se corre la llamada a la instrucción para que apunte a ese código. Es decir un programa puede usar funciones definidas en librerias que luego en el momento del linkeo se agregan al programa.
@@ -44,10 +45,36 @@ Un programa en C, utiliza nombres de variables convenientes y con sentido para e
 Al escribir código del kernel, incluso el módulo más pequeño se vinculará con todo el kernel, por lo que esto definitivamente es un problema. La mejor manera de lidiar con esto es declarar todas sus variables como estáticas y usar un prefijo bien definido para sus símbolos. Por convención, todos los prefijos del kernel están en minúsculas. Si no desea declarar todo como estático, otra opción es declarar una tabla de símbolos y registrarla en el kernel. 
 
 El archivo `/proc/kallsyms` contiene todos los símbolos que el kernel conoce y que, por lo tanto, son accesibles para sus módulos, ya que comparten el espacio de código del kernel.
+
+![prockalls](img/prockallsyms.png)
+![prockallsymsusb](img/prockallsymsusb.png)
+
 ### Drivers. Investigar contenido de /dev.
 Un tipo de módulo son los device drivers, que proveen funcionalidades para hardware como un puerto serial. En UNIX, cada porción de hardware está representada por un archivo ubicado en `/dev` llamado device file, que provee una manera de comunicarnos con el hardware. El driver realiza la comunicación en nombre del usuario.
 
 Por ejemplo, es1370.o puede ser el driver de una tarjeta de sonido, que conecta el archivo en `/dev/sound` a la tarjeta de sonido Ensoniq IS1379. Un programa en espacio de usuario como mp3blaster puede usar `/dev/sound` sin saber qué tarjeta de sonido está instalada.
+![barradev](img/barradev.png)
+
+## Pasos (Guía)
+### Siguiendo los pasos para cargar el modulo del repositorio de ejemplo
+
+```bash
+make all
+```
+![makemimodulo](img/ko.png)
+
+```bash
+sudo insmod mimodulo.ko
+```
+![insmod](img/insmod.png)
+![ver modulo con proc](img/moduloconproc.png)
+```bash
+dmsg
+```
+![dmsg1](img/demsg.png)
+![dmsg2](img/dmsg2.png)
+
+
 ### ¿Qué diferencias se pueden observar entre los dos modinfo ?
 El comando modinfo muestra información detallada sobre el módulo del kernel especificado. Se puede consultar información sobre todos los módulos disponibles, independientemente  si están cargados o no. Las entradas de parm muestran los parámetros que el usuario puede establecer para el módulo, y qué tipo de valor esperan.
 _Requisitos previos_: Tener instalado el paquete kmod.
@@ -59,7 +86,7 @@ Revela una serie de atributos del módulo, incluyendo su ubicación en el sistem
 Luego se ejeucta el comando `modinfo /lib/modules/$(uname-r)/kernel/crypto/des_generic.ko`
 ![des_generic_firma](img/des_generic_firma.png)
 Se muestra información detallada sobre el módulo des_generic.ko. Este módulo se encarga de llevar a cabo tareas de encriptación, específicamente la implementación de los algoritmos DES (Data Encryption Standard) y Triple DES (3DES), los cuales son parte integral de la API de criptografía del kernel.
-### ¿Qué divers/modulos estan cargados en sus propias pc?
+### ¿Qué drivers/modulos estan cargados en sus propias pc?
 Para visualizar los  drivers/módulos que están cargados en nuestra PC , utilizamos el comando `lsmod`
 Este comando lista todos los módulos del kernel que están actualmente cargados en el sistema
 ```
@@ -69,6 +96,8 @@ Los módulos se almacenan dentro del archivo `/proc/modules` , por lo que tambi�
 ```
 sudo cat /proc/modules
 ```
+[TXT de modulos presentes](txtCompare/modules-yesica.txt)
+
 Esta puede ser una lista larga y es posible que se prefiera buscar algo en particular. Por ejemplo para buscar el módulo fat :
 `sudo lsmod | grep fat`
 ### ¿Qué diferencia existe entre un módulo y un programa ?
@@ -76,6 +105,26 @@ Un programa es una entidad independiente que se ejecuta en el espacio de usuario
 
 Por otro lado, un módulo del kernel se define con precisión como un segmento de código capaz de cargarse y descargarse dinámicamente dentro del kernel según sea necesario. Los módulos interactúan directamente con el kernel y tienen acceso a recursos de bajo nivel, como hardware y servicios del sistema. Se inicia mediante una función de inicialización `module_init()`, la cual comunica al kernel qué funcionalidad ofrece y lo prepara para ser utilizado cuando sea necesario. Los módulos pueden proporcionar controladores de dispositivos, sistemas de archivos adicionales u otras funcionalidades que extienden las capacidades del núcleo del sistema operativo.
 ### ¿Cómo puede ver una lista de las llamadas al sistema que realiza un simple helloworld en c?
+Para esto podemos usar _strace_ que nos permite rastrear las syscalls hechas por el proceso y las signals que recibe el mismo. Lo probamos sobre el ejemplo de printf.
+```bash
+strace ./ejemplo_printf
+```
+![strace1](img/strace1.png)
+![strace2](img/strace2.png)
+
+La flag -tt agrega un tag de tiempo a las llamadas
+```bash
+strace -tt ./ejemplo_printf
+```
+![stracett1](img/stracett1.png)
+![stracett2](img/stracett2.png)
+
+y -c da un resumen estadístico
+```bash
+strace -c ./ejemplo_printf
+```
+![strace-c](img/strace-c.png)
+
 ### ¿Que es un segmentation fault? como lo maneja el kernel y como lo hace un programa?
 Un "segmentation fault" (violación de segmento) es un error común en la programación que ocurre cuando un programa intenta acceder a una región de memoria que no le está permitida. Este error generalmente resulta en la terminación abrupta del programa.
 
@@ -84,9 +133,31 @@ Cuando ocurre una violación de segmento, el kernel del sistema operativo es el 
 En cuanto a cómo maneja un programa una violación de segmento, generalmente no lo hace de forma explícita. Cuando ocurre una violación de segmento, el programa se detiene inmediatamente y puede generar un mensaje de error indicando la causa del fallo. Este mensaje de error puede ser útil para los desarrolladores para identificar y corregir el problema en el código del programa.
 ### Firma y documentacion de  un módulo de kernel 
 
+Vemos primero el ejemplo de un modulo ya firmado que hemos referenciado anteriormente.
+![desgeneric](img/desgeneric.png)
+![desgeneric firma](img/des_generic_firma.png)
+
+Para firmar nuestro _mimodulo.ko_ 
+
+- Generamos las claves privadas/publicas con OpenSSL lo que nos crea la clave MOK.priv y el certificado MOK.der
+	```bash
+	openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -outform DER -out MOK.der -nodes -days 36500 -subj "/CN=Module Signing Key/"
+
+	```
+	![openssl](img/openssl.png)
+- Para firmar el modulo lo tenemos que tener listo pero aun sin instanciarlo. 
+	```bash
+	/usr/src/linux-headers-$(uname -r)/scripts/sign-file sha256 MOK.priv MOK.der mimodulo.ko
+	```
+	![firma](img/firma.png)
+
+- Finalmente post _insmod_ ya nuestro modulo aparece firmado.
+	![mimodulofirmado](img/mimodulofirmado.png)
 
 
-### Ejemplo printf con makefile
+## Anexo 
+
+##### Ejemplo printf
 
 ```make
 all:
@@ -98,29 +169,10 @@ clean:
 
 ![printf](img/ejemploprintf.png)
 
-### run con strace
-![strace1](img/strace1.png)
-![strace2](img/strace2.png)
-![stracett1](img/stracett1.png)
-![stracett2](img/stracett2.png)
-![strace-c](img/strace-c.png)
 
-### /proc
-![prockalls](img/prockallsyms.png)
-![prockallsymsusb](img/prockallsymsusb.png)
-
-## Desafio 2
-![makemimodulo](img/ko.png)
-![modinfoko](img/modinfoko.png)
-![insmod](img/insmod.png)
-![dmsg1](img/demsg.png)
-![dmsg2](img/dmsg2.png)
-![ver modulo con proc](img/moduloconproc.png)
-
-## Desafio 3 (pdf csroom)
+##### Desafio 3 (pdf csroom)
 ![modulos que tengo cargados](img/moduloscargados.png)
 ![modulos que cargados kernel](img/moduloscargados-kernel.png)
 ![crpyto](img/crypto.png)
-![desgeneric](img/desgeneric.png)
-![desgeneric firma](img/des_generic_firma.png)
-![mimodulofirmado](img/mimodulofirmado.png)
+
+
