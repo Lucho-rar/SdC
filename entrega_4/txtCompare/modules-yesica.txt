@@ -1,0 +1,62 @@
+Module                  Size  Used by
+tls                   151552  0
+cpuid                  12288  0
+snd_intel8x0           53248  4
+binfmt_misc            24576  1
+snd_ac97_codec        196608  1 snd_intel8x0
+intel_rapl_msr         20480  0
+ac97_bus               12288  1 snd_ac97_codec
+nls_iso8859_1          12288  1
+snd_pcm               196608  3 snd_intel8x0,snd_ac97_codec
+intel_rapl_common      40960  1 intel_rapl_msr
+crct10dif_pclmul       12288  1
+polyval_clmulni        12288  0
+polyval_generic        12288  1 polyval_clmulni
+snd_seq_midi           24576  0
+snd_seq_midi_event     16384  1 snd_seq_midi
+ghash_clmulni_intel    16384  0
+sha256_ssse3           32768  0
+sha1_ssse3             32768  0
+aesni_intel           356352  0
+snd_rawmidi            57344  1 snd_seq_midi
+crypto_simd            16384  1 aesni_intel
+cryptd                 24576  2 crypto_simd,ghash_clmulni_intel
+snd_seq               118784  2 snd_seq_midi,snd_seq_midi_event
+rapl                   20480  0
+snd_seq_device         16384  3 snd_seq,snd_seq_midi,snd_rawmidi
+joydev                 32768  0
+snd_timer              49152  3 snd_seq,snd_pcm
+input_leds             12288  0
+serio_raw              20480  0
+snd                   143360  13 snd_seq,snd_seq_device,snd_intel8x0,snd_timer,snd_ac97_codec,snd_pcm,snd_rawmidi
+soundcore              16384  1 snd
+vboxguest              57344  0
+mac_hid                12288  0
+sch_fq_codel           24576  2
+vmwgfx                434176  1
+drm_ttm_helper         12288  1 vmwgfx
+ttm                   110592  2 vmwgfx,drm_ttm_helper
+drm_kms_helper        274432  3 vmwgfx
+msr                    12288  0
+parport_pc             53248  0
+ppdev                  24576  0
+lp                     28672  0
+parport                77824  3 parport_pc,lp,ppdev
+drm                   765952  6 vmwgfx,drm_kms_helper,drm_ttm_helper,ttm
+efi_pstore             12288  0
+ip_tables              36864  0
+x_tables               69632  1 ip_tables
+autofs4                57344  2
+hid_generic            12288  0
+crc32_pclmul           12288  0
+psmouse               212992  0
+ahci                   49152  2
+usbhid                 77824  0
+libahci                57344  1 ahci
+hid                   180224  2 usbhid,hid_generic
+i2c_piix4              28672  0
+video                  73728  0
+e1000                 180224  0
+pata_acpi              12288  0
+wmi                    40960  1 video
+
