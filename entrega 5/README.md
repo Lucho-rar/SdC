@@ -163,3 +163,19 @@ MODULE_DESCRIPTION("Nuestro segundo driver de SdeC");
   <img src="./img/catdev.png"><br>
   <em>Fig 4. insmod drv2.</em>
 </p>
+
+## Creación automática de los CDF
+Hasta el kernel 2.4, la creación de los archivos de dispositivos fue realizada automáticamente por el mismo kernel, usando api's de devfs. A medida que el kernel evolucionó, los desarrolladores se dieron cuenta que los DF son una cuestión más de espacio de usuario y que solo ellos deberían tratarlo, y no el kernel.
+
+Con esa idea, el núcleo solo completa la clase de dispositivo y la información del dispositivo en _sys/class_. Luego el espacio de usuario necesita interpretarlo y tomar una acción apropiada. 
+
+<p align="center">
+  <img src="./img/lssys.png"><br>
+  <em>Fig 4. lsys.</em><br>
+  <img src="./img/wifi.png"><br>
+  <em>Fig 4. interfaz wifi.</em><br>
+  <img src="./img/bateria.png"><br>
+  <em>Fig 4. capacidad de la bateria.</em><br>
+  <img src="./img/temperatura.png"><br>
+  <em>Fig 4. temperatura.</em><br>
+</p>
