@@ -62,6 +62,104 @@ El directorio /dev contiene los archivos de dispositivos especiales para todos l
 
 Ya sabemos qué son los drives y para que sirven. ¿Que tienen de especial los character devices? En resumen, que la mayoría de los controladores de dispositivos son de caracteres (recordemos que son orientados a bytes), por ejemplo, seriales, audio, video, cámara, etc.
 
+## Nuestro primer CDD
+Cualquier driver de Linux consta de un _constructor_ y un _destructor._
+Se llama al constructor de un módulo cada vez que _insmod_ logra cargar el módulo en el núcleo. Se llama al descructor cada vez que _rmmod_ logra descargar el módulo del núcleo.
 
+Se implementan dos funciones habituales en el driver con las macros _module_init()_ y _module_exit()_ incluidas en _module.h_.
 
+```c
+#include <linux/module.h>
+#include <linux/version.h>
+#include <linux/kernel.h>
 
+static int __init drv1_init(void) /* Constructor */
+{
+    printk(KERN_INFO "SdeC: drv1 Registrado exitosamente..!!\n");
+
+    return 0;
+}
+
+static void __exit drv1_exit(void) /* Destructor */
+{
+    printk(KERN_INFO "SdeC: drv1 dice Adios mundo cruel..!!\n");
+}
+
+module_init(drv1_init);
+module_exit(drv1_exit);
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Anil Kumar Pugalia <email@sarika-pugs.com>");
+MODULE_DESCRIPTION("Nuestro primer driver de SdeC");
+```
+<p align="center">
+  <img src="./img/makeinsmoddrv1.png"><br>
+  <img src="./img/dmesgdrv1.png"><br>
+  <img src="./img/dmesgdrv1.png"><br>
+  <img src="./img/rmmoddrv1.png"><br>
+  <em>Fig 4. insmod & rmmod drv1.</em>
+</p>
+
+## Número mayor y menor
+El vínculo entre _APPLICATION_ y _CDF_ se basa en el nombre del archivo del dispositivo. En caso del vínculo _CDF - DD_ se basa en el número del archivo de dispositivo (NO en el nombre).
+
+De esta manera, una aplicación de espacio de usuario tiene cualquier nombre para el CDF y permite que el núcleo tenga un enlace trivial CDF-DD basado en un índice.
+
+Este índice se conoce como el par <major,minor > del archivo del dispositivo. 
+
+A partir del kernel 2.6 en adelante hubo más recursos para el par:
+- Tipos especiales: dev_t (contiene ambos numeros)
+- Macros específicas:
+  - MAJOR(dev_t dev) - El mayor de dev_t
+  - MINOR(dev_t dev) - El menor de dev_t
+  - MKDEV(int major, int minor) - Crea dev a partir de major y minor.
+
+```c
+#include <linux/module.h>
+#include <linux/version.h>
+#include <linux/kernel.h>
+#include <linux/types.h>
+#include <linux/kdev_t.h>
+#include <linux/fs.h>
+
+static dev_t first; 
+
+static int __init drv2_init(void) /* Constructor */
+{
+    int ret;
+
+    printk(KERN_INFO "SdeC_drv2 Registrado exitosamente..!!");
+
+    // alloc_chrdev_region calcula (¿ obtiene ?) dinámicamente un MAJOR libre (se devuelve en 
+    // first) y registra 3 números de device MINOR a partir de <el mayor libre, primer menor>, 
+    // con el nombre SdeC_drv2. Si devuelve 0, está todo bien..!!
+
+    if ((ret = alloc_chrdev_region(&first, 0, 3, "SdeC_Driver2")) < 0)
+    {
+        return ret;
+    }
+    printk(KERN_INFO "<Major, Minor>: <%d, %d>\n", MAJOR(first), MINOR(first));
+    return 0;
+}
+
+static void __exit drv2_exit(void) /* Destructor */
+{
+    unregister_chrdev_region(first, 3);
+    printk(KERN_INFO "SdeC_drv2 dice Adios mundo cruel..!!\n");
+}
+
+module_init(drv2_init);
+module_exit(drv2_exit);
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Cátedra Sistemas de Computación");
+MODULE_DESCRIPTION("Nuestro segundo driver de SdeC");
+```
+
+<p align="center">
+  <img src="./img/insmoddrv2.png"><br>
+  <img src="./img/majorminor.png"><br>
+  <img src="./img/devdrv2.png"><br>
+  <img src="./img/catdev.png"><br>
+  <em>Fig 4. insmod drv2.</em>
+</p>
