@@ -2,7 +2,7 @@
 // https://www.kernel.org/doc/htmldocs/kernel-api/index.html
 
 // Las llamadas a operaciones comunes de archivos también se aplican para cualquier dispositivo.
-// En definitiva un archivo es un archivo y para Linus casi todo es un archivo, desde la perspectiva del usuario.
+// En definitiva un archivo es un archivo y para Linux casi todo es un archivo, desde la perspectiva del usuario.
 // La diferencia radica en el espacio del kernel, donde el VFS decodifica el tipo de archivo 
 // y transfiere las operaciones de archivo al canal apropiado, ya sea al módulo del sistema de 
 // archivos en el caso de un archivo o directorio normal, o al "device driver" correspondiente 

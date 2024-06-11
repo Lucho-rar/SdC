@@ -179,3 +179,110 @@ Con esa idea, el núcleo solo completa la clase de dispositivo y la información
   <img src="./img/temperatura.png"><br>
   <em>Fig 4. temperatura.</em><br>
 </p>
+
+La clase de dispositivo se crea con:
+- struct class *cl=class_create(THIS_MODULE, "<device class name>");
+La información del dispositivo se completa con:
+- device_create(cl, NULL, first, NULL, "<device name format>", …);
+- first es tipo dev_t con su correspondiente major, minor.
+Las llamadas complementarias o inversas:
+- device_destroy(c1,first)
+- class_destroy(c1)
+
+## Driver 3
+
+
+<p align="center">
+  <img src="./img/driver3.png"><br>
+  <em>Fig 4. driver3.</em><br>
+</p>
+
+Análisis de driver3:
+- Variables globales:
+  ```c
+  static dev_t first; 		// Número de dispositivo (major y minor)
+  static struct cdev c_dev; 	// Estructura del dispositivo de caracteres
+  static struct class *cl; 	// Clase de dispositivo para sysfs
+  ```
+- Implementación de las funciones de operación, que son los puntos de entrada para las operaciones de archivo en el dispositivo
+  ```c
+  static int my_open(struct inode *i, struct file *f)
+  {
+      printk(KERN_INFO "Driver3_SdeC: open()\n");
+      return 0;
+  }
+  static int my_close(struct inode *i, struct file *f)
+  {
+      printk(KERN_INFO "Driver3_SdeC: close()\n");
+      return 0;
+  }
+  static ssize_t my_read(struct file *f, char __user *buf, size_t len, loff_t *off)
+  {
+      printk(KERN_INFO "Driver3_SdeC: read()\n");
+      return 0;
+  }
+  static ssize_t my_write(struct file *f, const char __user *buf, size_t len, loff_t *off)
+  {
+      printk(KERN_INFO "Driver3_SdeC: write()\n");
+      return len;
+  }
+  ```
+- La estructura file operations contiene las declaración de las funciones que se desarrollaron
+  ```c
+  static struct file_operations pugs_fops =
+  {
+      .owner = THIS_MODULE,
+      .open = my_open,
+      .release = my_close,
+      .read = my_read,
+      .write = my_write
+  };
+  ```
+- Además tenemos el init y exit que veniamos tratando.
+
+#### _Análisis de my_read_
+La funcion debería copiar los datos del device al espacio de usuario. Vemos que retorna 0 lo que indicaría que no leyó ningun byte. En una implementación real debería retornar un lenght de bytes leídos.
+#### _Análisis de my_write_
+Esta función debería copiar desde el espacio de usuario al dispositivo. Debe retornar un lenght cuando se escribió exitosamente y otra cosa en caso de error (número negativo).
+
+## Driver 4
+Observamos como se modifican las funciones de lectura y escritura.
+- my_read:
+  ```c
+  static ssize_t my_read(struct file *f, char __user *buf, size_t len, loff_t *off)
+  {
+      printk(KERN_INFO "SdeC_drv4: read()\n");
+
+      if (*off == 0)
+      {
+          if ( copy_to_user(buf, &c, 1) != 0)
+              return -EFAULT;
+          else
+          {
+              (*off)++;
+              return 1;
+          }
+      }
+      else
+          return 0;
+
+  }
+  ```
+- my_write:
+  ```c
+  static ssize_t my_write(struct file *f, const char __user *buf, size_t len, loff_t *off)
+  {
+      printk(KERN_INFO "SdeC_drv4: write()\n");
+
+      if ( copy_from_user(&c, buf + len - 1, 1) != 0 )
+          return -EFAULT;
+      else
+          return len;
+  }
+  ```
+
+<p align="center">
+  <img src="./img/driver4.png"><br>
+  <em>Fig 4. driver4.</em><br>
+</p>
+
