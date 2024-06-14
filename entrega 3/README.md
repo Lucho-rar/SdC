@@ -1,7 +1,7 @@
 ![portada](../entrega%202/img/portada.png)
 # Universidad Nacional de Córdoba
 ## FCEFyN - Sistemas de Computación 2024
-## _Entrega #3: StackFrame_
+## _Entrega #3: Modo Protegido_
 
 Autores:
 - Mangin, Matias Eduardo.
