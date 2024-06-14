@@ -509,5 +509,5 @@ Además mediante un script de python realizamos el monitoreo de la consigna swit
 
 <p align="center">
   <img src="./img/setup.jpeg"><br>
-  <em>Fig 19. setup de trabajo.</em><br>
+  <em>Fig 19. Setup de trabajo - Conexión directa y ssh a la raspberry.</em><br>
 </p>
