@@ -97,7 +97,7 @@ MODULE_DESCRIPTION("Nuestro primer driver de SdeC");
   <img src="./img/dmesgdrv1.png"><br>
   <img src="./img/dmesgdrv1.png"><br>
   <img src="./img/rmmoddrv1.png"><br>
-  <em>Fig 4. insmod & rmmod drv1.</em>
+  <em>Fig 5. insmod & rmmod drv1.</em>
 </p>
 
 ## Número mayor y menor
@@ -161,7 +161,7 @@ MODULE_DESCRIPTION("Nuestro segundo driver de SdeC");
   <img src="./img/majorminor.png"><br>
   <img src="./img/devdrv2.png"><br>
   <img src="./img/catdev.png"><br>
-  <em>Fig 4. insmod drv2.</em>
+  <em>Fig 6. insmod drv2.</em>
 </p>
 
 ## Creación automática de los CDF
@@ -171,13 +171,13 @@ Con esa idea, el núcleo solo completa la clase de dispositivo y la información
 
 <p align="center">
   <img src="./img/lssys.png"><br>
-  <em>Fig 4. lsys.</em><br>
+  <em>Fig 7. lsys.</em><br>
   <img src="./img/wifi.png"><br>
-  <em>Fig 4. interfaz wifi.</em><br>
+  <em>Fig 8. interfaz wifi.</em><br>
   <img src="./img/bateria.png"><br>
-  <em>Fig 4. capacidad de la bateria.</em><br>
+  <em>Fig 9. capacidad de la bateria.</em><br>
   <img src="./img/temperatura.png"><br>
-  <em>Fig 4. temperatura.</em><br>
+  <em>Fig 10. temperatura.</em><br>
 </p>
 
 La clase de dispositivo se crea con:
@@ -194,7 +194,7 @@ Las llamadas complementarias o inversas:
 
 <p align="center">
   <img src="./img/driver3.png"><br>
-  <em>Fig 4. driver3.</em><br>
+  <em>Fig 11. driver3.</em><br>
 </p>
 
 Análisis de driver3:
@@ -283,7 +283,7 @@ Observamos como se modifican las funciones de lectura y escritura.
 
 <p align="center">
   <img src="./img/driver4.png"><br>
-  <em>Fig 4. driver4.</em><br>
+  <em>Fig 12. driver4.</em><br>
 </p>
 
 ## Módulo Clipboard
@@ -395,5 +395,119 @@ module_exit( exit_clipboard_module );
 
 <p align="center">
   <img src="./img/clipboard.png"><br>
-  <em>Fig 4. clipboard.</em><br>
+  <em>Fig 13. clipboard.</em><br>
+</p>
+
+
+## Pruebas de driver en Raspberry Pi
+
+Para hacer la experiencia en la raspberry usamos la RaspberryPi3B
+<p align="center">
+  <img src="./img/pines-gpio.jpg"><br>
+  <em>Fig 14. Raspberry pi 3b PINOUT.</em><br>
+</p>
+
+
+Primero siguiendo lo aprendido realizamos pruebas sobre un led para tomar contacto con la placa.
+
+<p align="center">
+  <img src="./img/ledr.gif"><br>
+  <em>Fig 15. Test sobre la placa.</em><br>
+</p>
+
+
+Además apoyandonos en guías de como trataban a la raspberry https://github.com/lowlevellearning/lll-gpio-driver/tree/master .
+
+
+En cuanto al código de la consigna, nos fuimos guiando de los ejemplos que venimos realizando, en resumen:
+
+| Función/Parte del Código                              | Descripción                                                                                                                                                          |
+|--------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `gpio_driver_init`                                     | Inicializa el driver GPIO.                                                                                                                                              |
+| `alloc_chrdev_region`                                  | Asigna números de dispositivo (major y minor numbers).                                                                                                                 |
+| `cdev_alloc` y `cdev_add`                              | Crea y registra el dispositivo de caracteres con operaciones definidas (`gpio_fops`).                                                                                 |
+| `ioremap`                                              | Mapea la dirección física del GPIO en la memoria del sistema.                                                                                                          |
+| `gpio_read`                                            | Lee el estado del pin GPIO configurado y copia al espacio de usuario.                                                                                                 |
+| `read_gpio_value`                                      | Función que lee el valor del pin GPIO.                                                                                                                                |
+| `copy_to_user`                                         | Copia datos desde el kernel al espacio de usuario.                                                                                                                     |
+| `gpio_write`                                           | Copia el número de pin GPIO desde el espacio de usuario al kernel y configura el pin GPIO correspondiente.                                                            |
+| `copy_from_user`                                       | Copia datos desde el espacio de usuario al kernel.                                                                                                                      |
+| `configure_gpio_pin`                                   | Configura el pin GPIO según el número proporcionado.                                                                                                                   |
+| `gpio_driver_exit`                                     | Limpia y elimina el driver GPIO.                                                                                                                                       |
+| `cdev_del` y `unregister_chrdev_region`                | Elimina el dispositivo de caracteres y libera el número de dispositivo asignado.                                                                                       |
+| Acceso a registros GPIO (`gpio_base`)                   | Mapeo de la dirección base del GPIO en la memoria del sistema.                                                                                                        |
+| Operaciones de archivo (`gpio_fops`)                    | Define operaciones de lectura y escritura para el driver (`read` y `write`).                                                                                           |
+| `kernel_buffer`                                        | Buffer utilizado para almacenar datos del kernel.                                                                                                                      |
+| `MAX_BUFFER_SIZE`                                      | Tamaño máximo del buffer.                                                                                                                                              |
+| `RPI3_GPIO_BASE` y `RPI4_GPIO_BASE`                    | Bases de direcciones GPIO para Raspberry Pi 3 y 4, respectivamente.                                                                                                   |
+| `MODULE_LICENSE`, `MODULE_AUTHOR`, `MODULE_DESCRIPTION` | Metadatos del módulo del kernel.                                                                                                                                      |
+
+Además mediante un script de python realizamos el monitoreo de la consigna switcheando entre dos pines, permitiendo visualizar una señal que está directamente a masa y otra que funciona como pulsador.
+
+### Desde punto de vista del kernel
+<p align="center">
+  <img src="./img/kernelview.png"><br>
+  <em>Fig 16. dmesg.</em><br>
+</p>
+
+```shell
+[ 1497.692389] Kernel buffer: 19
+[ 1497.692419] Selected GPIO Pin: 19
+[ 1497.703847] Reading GPIO state
+[ 1498.961785] Reading GPIO state
+[ 1500.205881] Reading GPIO state
+[ 1501.454202] Reading GPIO state
+[ 1502.715889] Reading GPIO state
+[ 1503.970499] Reading GPIO state
+[ 1505.240953] Reading GPIO state
+[ 1505.549669] Kernel buffer: 17
+[ 1505.549693] Selected GPIO Pin: 17
+[ 1506.508751] Reading GPIO state
+[ 1507.793401] Reading GPIO state
+[ 1509.086328] Reading GPIO state
+[ 1510.350897] Reading GPIO state
+[ 1511.610403] Reading GPIO state
+[ 1512.868791] Reading GPIO state
+[ 1514.130473] Reading GPIO state
+[ 1515.396528] Reading GPIO state
+[ 1516.648007] Reading GPIO state
+[ 1517.904332] Reading GPIO state
+[ 1519.160822] Reading GPIO state
+[ 1520.413503] Reading GPIO state
+[ 1521.679758] Reading GPIO state
+[ 1522.947527] Reading GPIO state
+[ 1524.224129] Reading GPIO state
+[ 1525.490377] Reading GPIO state
+[ 1526.764934] Reading GPIO state
+[ 1528.046935] Reading GPIO state
+[ 1529.303104] Reading GPIO state
+[ 1530.561346] Reading GPIO state
+[ 1531.822318] Reading GPIO state
+[ 1533.072182] Reading GPIO state
+[ 1534.330614] Reading GPIO state
+[ 1535.598419] Reading GPIO state
+[ 1536.854811] Reading GPIO state
+[ 1538.118148] Reading GPIO state
+[ 1539.379694] Reading GPIO state
+[ 1540.640841] Reading GPIO state
+[ 1542.349606] Reading GPIO state
+[ 1543.639664] Reading GPIO state
+[ 2396.732259] usb 1-1.4: USB disconnect, device number 5
+```
+
+### Desde el punto de vista del user
+
+<p align="center">
+  <img src="./img/Figure_1.png"><br>
+  <em>Fig 17. Entrada pin con botonera.</em><br>
+</p>
+
+<p align="center">
+  <img src="./img/Figure_2.png"><br>
+  <em>Fig 18. Entrada pin ground.</em><br>
+</p>
+
+<p align="center">
+  <img src="./img/setup.jpeg"><br>
+  <em>Fig 4. setup de trabajo.</em><br>
 </p>
