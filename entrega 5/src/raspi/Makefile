@@ -1,4 +1,4 @@
-obj-m += gpio_driver.o
+obj-m += gpio_handler.o
 
 KDIR = /lib/modules/$(shell uname -r)/build
 
