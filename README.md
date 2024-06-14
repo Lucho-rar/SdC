@@ -3,6 +3,10 @@
 ![Imagen o logo del proyecto](https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnNrM28xaHJqZWo4OXQzZWJkZmNiMXFwcHYwdTlmanR6aHZoMDg1bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT9IgG50Fb7Mi0prBC/giphy.webp)
 
 ---
+![GitHub contributors](https://img.shields.io/github/contributors/lucho-rar/SdC)
+![GitHub Repo stars](https://img.shields.io/github/stars/lucho-rar/SdC?style=social)
+![GitHub forks](https://img.shields.io/github/forks/lucho-rar/SdC?style=social)
+
 
 ## Authors
 
